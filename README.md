@@ -324,17 +324,6 @@ The scanner detects which frameworks are in use and activates targeted checks:
 
 ---
 
-## Contributing
-
-Contributions welcome — new checks, improved patterns, false positive fixes, or additional framework support (Remix, Nuxt, Koa, Hapi are not yet covered).
-
-1. Add your check to `scripts/scan.js` following the existing `CHECK N` block format
-2. Add the grep pattern to `references/patterns.md`
-3. Add the entry to the check table in `SKILL.md`
-4. Open a PR with a brief description of what the check detects and a vulnerable code example
-
----
-
 ## License
 
 MIT
