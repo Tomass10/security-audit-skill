@@ -1,4 +1,4 @@
-# 🔐 Node.js Security Audit — Claude Skill
+# Node.js Security Audit — Claude Skill
 
 A Claude skill that performs comprehensive security audits of Node.js / JavaScript web applications. Point it at a codebase and it produces a prioritized, actionable report with file paths, line numbers, vulnerable code snippets, and concrete fixes.
 
@@ -19,6 +19,57 @@ The skill runs a 2,100-line static analysis script (`scripts/scan.js`) across yo
 | ℹ️ Info | Informational findings | High-entropy string, debug flag |
 
 Each finding includes: `id · severity · category · file · line · snippet · remediation · CWE · OWASP · confidence · risk_score`
+
+---
+
+## Installation
+
+### Option 1 — Claude Code (recommended)
+
+[Claude Code](https://docs.anthropic.com/en/docs/claude-code) picks up skills automatically from a `.claude/skills/` folder in your project or home directory.
+
+```bash
+# Clone into your global Claude skills folder
+git clone https://github.com/Tomass10/security-audit-skill.git ~/.claude/skills/security-audit-skill
+```
+
+That's it. Open Claude Code in any Node.js project and ask:
+
+> *"Run a security audit on my app"*
+> *"Check my repo for vulnerabilities"*
+> *"Is my code secure? Look for hardcoded secrets and injection issues"*
+
+Claude will run `scripts/scan.js`, review the results, do additional manual checks, and produce a structured report.
+
+### Option 2 — claude.ai (file upload)
+
+1. Download or clone this repo
+2. Go to [claude.ai](https://claude.ai) and start a new conversation
+3. Upload your project as a zip file (or paste individual files)
+4. Also upload `SKILL.md` from this repo
+5. Say: *"Use the instructions in SKILL.md to audit the uploaded project"*
+
+### Option 3 — Run the scanner directly (no Claude needed)
+
+The scanner works as a standalone Node.js script with no dependencies:
+
+```bash
+git clone https://github.com/Tomass10/security-audit-skill.git
+node security-audit-skill/scripts/scan.js /path/to/your/app
+```
+
+Pipe to `jq` for readable output:
+
+```bash
+# Summary only
+node scripts/scan.js /path/to/your/app | jq '.summary'
+
+# Critical findings only
+node scripts/scan.js /path/to/your/app | jq '.findings[] | select(.severity == "CRITICAL")'
+
+# Top 5 by risk score
+node scripts/scan.js /path/to/your/app | jq '.summary.risk_scores.top5'
+```
 
 ---
 
@@ -235,38 +286,6 @@ The scanner produces JSON:
 ```
 
 Claude then uses this JSON to produce the final formatted report.
-
----
-
-## Usage with Claude
-
-This is a **Claude skill** — a packaged set of instructions and scripts that Claude uses when you ask it to audit your code.
-
-### How to use it
-
-1. Install the skill in your Claude environment (see your platform's skill documentation)
-2. Upload or point Claude at your Node.js project
-3. Ask:
-   > *"Run a security audit on my app"*
-   > *"Check my repo for vulnerabilities"*
-   > *"Is my code secure? Look for hardcoded secrets and injection issues"*
-
-Claude will run `scripts/scan.js`, review the results, do additional manual checks, and produce a structured report.
-
-### Running the scanner directly
-
-You can also run the scanner standalone without Claude:
-
-```bash
-node scripts/scan.js /path/to/your/app
-```
-
-Pipe to `jq` for readable output:
-
-```bash
-node scripts/scan.js /path/to/your/app | jq '.summary'
-node scripts/scan.js /path/to/your/app | jq '.findings[] | select(.severity == "CRITICAL")'
-```
 
 ---
 
