@@ -24,34 +24,35 @@ Each finding includes: `id · severity · category · file · line · snippet ·
 
 ## Installation
 
-### Option 1 — Claude Code (recommended)
-
-[Claude Code](https://docs.anthropic.com/en/docs/claude-code) picks up skills automatically from a `.claude/skills/` folder in your project or home directory.
+### Option 1 — One command (recommended)
 
 ```bash
-# Clone into your global Claude skills folder
+npx skills add Tomass10/security-audit-skill
+```
+
+This installs the skill into your agent's config directory and works with Claude Code and 40+ other agents. It will ask which agent to install for — pick **Claude Code**.
+
+To install non-interactively:
+
+```bash
+npx skills add Tomass10/security-audit-skill --agent claude-code --yes
+```
+
+To install globally (available in all projects, not just the current one):
+
+```bash
+npx skills add Tomass10/security-audit-skill --agent claude-code --global --yes
+```
+
+### Option 2 — Manual install
+
+```bash
 git clone https://github.com/Tomass10/security-audit-skill.git ~/.claude/skills/security-audit-skill
 ```
 
-That's it. Open Claude Code in any Node.js project and ask:
+### Option 3 — Run the scanner without Claude
 
-> *"Run a security audit on my app"*
-> *"Check my repo for vulnerabilities"*
-> *"Is my code secure? Look for hardcoded secrets and injection issues"*
-
-Claude will run `scripts/scan.js`, review the results, do additional manual checks, and produce a structured report.
-
-### Option 2 — claude.ai (file upload)
-
-1. Download or clone this repo
-2. Go to [claude.ai](https://claude.ai) and start a new conversation
-3. Upload your project as a zip file (or paste individual files)
-4. Also upload `SKILL.md` from this repo
-5. Say: *"Use the instructions in SKILL.md to audit the uploaded project"*
-
-### Option 3 — Run the scanner directly (no Claude needed)
-
-The scanner works as a standalone Node.js script with no dependencies:
+The scanner works standalone with no dependencies:
 
 ```bash
 git clone https://github.com/Tomass10/security-audit-skill.git
