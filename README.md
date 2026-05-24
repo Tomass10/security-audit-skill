@@ -27,7 +27,7 @@ Each finding includes: `id · severity · category · file · line · snippet ·
 ### Option 1 — One command (recommended)
 
 ```bash
-npx skills add Tomass10/security-audit-skill
+npx skills add https://github.com/Tomass10/security-audit-skill --skill security-audit-skill
 ```
 
 This installs the skill into your agent's config directory and works with Claude Code and 40+ other agents. It will ask which agent to install for — pick **Claude Code**.
